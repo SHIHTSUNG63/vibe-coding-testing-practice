@@ -93,18 +93,29 @@ describe('LoginPage', () => {
       expect(mockLogin).not.toHaveBeenCalled();
     });
 
-    it('密碼未包含英數混合', async () => {
+    it('密碼未包含大小寫英數混合', async () => {
       renderComponent();
       
       const emailInput = screen.getByLabelText('電子郵件');
       const passwordInput = screen.getByLabelText('密碼');
       const submitButton = screen.getByRole('button', { name: '登入' });
 
+      // 只有數字
       fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
       fireEvent.change(passwordInput, { target: { value: '12345678' } });
       fireEvent.click(submitButton);
+      expect(await screen.findByText('密碼必須包含大小寫英文字母和數字')).toBeInTheDocument();
 
-      expect(await screen.findByText('密碼必須包含英文字母和數字')).toBeInTheDocument();
+      // 沒有大寫字母
+      fireEvent.change(passwordInput, { target: { value: 'lower123' } });
+      fireEvent.click(submitButton);
+      expect(await screen.findByText('密碼必須包含大小寫英文字母和數字')).toBeInTheDocument();
+
+      // 沒有小寫字母
+      fireEvent.change(passwordInput, { target: { value: 'UPPER123' } });
+      fireEvent.click(submitButton);
+      expect(await screen.findByText('密碼必須包含大小寫英文字母和數字')).toBeInTheDocument();
+
       expect(mockLogin).not.toHaveBeenCalled();
     });
   });

@@ -42,16 +42,17 @@ export const LoginPage: React.FC = () => {
     };
 
     const validatePassword = (password: string): boolean => {
-        // Password must be at least 8 characters with letters and numbers
-        const hasLetter = /[a-zA-Z]/.test(password);
+        // Password must be at least 8 characters with uppercase, lowercase and numbers
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
 
         if (password.length < 8) {
             setPasswordError('密碼必須至少 8 個字元');
             return false;
         }
-        if (!hasLetter || !hasNumber) {
-            setPasswordError('密碼必須包含英文字母和數字');
+        if (!hasUpperCase || !hasLowerCase || !hasNumber) {
+            setPasswordError('密碼必須包含大小寫英文字母和數字');
             return false;
         }
         setPasswordError('');
@@ -119,7 +120,7 @@ export const LoginPage: React.FC = () => {
                         <input
                             type="password"
                             id="password"
-                            placeholder="至少 8 個字元，需包含英數"
+                            placeholder="至少 8 個字元，需包含大小寫英數"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             disabled={isLoading}
@@ -143,7 +144,7 @@ export const LoginPage: React.FC = () => {
 
                 {!import.meta.env.VITE_API_URL && (
                     <div className="login-footer">
-                        <p>測試帳號：任意 email 格式 / 密碼需包含英數且8位以上</p>
+                        <p>測試帳號：任意 email 格式 / 密碼需包含大小寫英數且8位以上</p>
                     </div>
                 )}
             </div>
