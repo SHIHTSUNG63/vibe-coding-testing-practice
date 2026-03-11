@@ -144,7 +144,7 @@ export const LoginPage: React.FC = () => {
 
                 {!import.meta.env.VITE_API_URL && (
                     <div className="login-footer">
-                        <p>測試帳號：任意 email 格式 / 密碼需包含大小寫英數且8位以上</p>
+                        <p>測試帳號：任意 email 格式 / 密碼需包含大小寫英數且 8 位以上</p>
                     </div>
                 )}
             </div>

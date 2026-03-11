@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter, useNavigate } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { LoginPage } from './LoginPage';
 import { useAuth } from '../context/AuthContext';
 import { vi, describe, it, expect, beforeEach } from 'vitest';
@@ -93,23 +93,29 @@ describe('LoginPage', () => {
             expect(mockLogin).not.toHaveBeenCalled();
         });
 
-        it('輸入未包含大小寫與數字的密碼時應顯示錯誤訊息', async () => {
+        it('輸入未包含大小寫或數字的密碼時應顯示錯誤訊息', async () => {
             renderComponent();
 
             const emailInput = screen.getByLabelText('電子郵件');
             const passwordInput = screen.getByLabelText('密碼');
             const submitButton = screen.getByRole('button', { name: '登入' });
 
-            fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
-            
-            // Only lowercase
-            fireEvent.change(passwordInput, { target: { value: 'alllowercase123' } });
-            fireEvent.click(submitButton);
+            const fillAndSubmit = async (pwd: string) => {
+                fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+                fireEvent.change(passwordInput, { target: { value: pwd } });
+                fireEvent.click(submitButton);
+            };
+
+            // Only lowercase and numbers
+            await fillAndSubmit('lowercasenum123');
             expect(await screen.findByText('密碼必須包含大小寫英文字母和數字')).toBeInTheDocument();
 
-            // Only uppercase
-            fireEvent.change(passwordInput, { target: { value: 'ALLUPPERCASE123' } });
-            fireEvent.click(submitButton);
+            // Only uppercase and numbers
+            await fillAndSubmit('UPPERCASENUM123');
+            expect(await screen.findByText('密碼必須包含大小寫英文字母和數字')).toBeInTheDocument();
+
+            // Only letters (no numbers)
+            await fillAndSubmit('MixedCaseLetters');
             expect(await screen.findByText('密碼必須包含大小寫英文字母和數字')).toBeInTheDocument();
 
             expect(mockLogin).not.toHaveBeenCalled();
