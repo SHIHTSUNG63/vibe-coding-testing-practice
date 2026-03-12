@@ -52,7 +52,7 @@ export const LoginPage: React.FC = () => {
             return false;
         }
         if (!hasUpperCase || !hasLowerCase || !hasNumber) {
-            setPasswordError('密碼必須包含大小寫英文字母和數字');
+            setPasswordError('密碼必須包含大小寫英文字母ssd  123djfgkjdjasdf  和數字');
             return false;
         }
         setPasswordError('');
