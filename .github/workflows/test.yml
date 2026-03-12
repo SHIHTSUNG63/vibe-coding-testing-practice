@@ -2,7 +2,7 @@ name: Automated Testing
 
 on:
   push:
-    branches:
+    branches: 
       - '**'
 
 jobs:
