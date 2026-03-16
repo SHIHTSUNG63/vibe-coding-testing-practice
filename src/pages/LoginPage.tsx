@@ -134,7 +134,7 @@ export const LoginPage: React.FC = () => {
                         {isLoading ? (
                             <>
                                 <span className="button-spinner" />
-                                登入中...
+                                登入中.....
                             </>
                         ) : (
                             '登入'
