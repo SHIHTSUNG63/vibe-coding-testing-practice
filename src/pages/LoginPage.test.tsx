@@ -85,7 +85,7 @@ describe('LoginPage', () => {
             const passwordInput = screen.getByLabelText('密碼');
             const submitButton = screen.getByRole('button', { name: '登入' });
 
-            fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+            fireEvent.change(emailInput, { target: { value: 'test1@example.com' } });
             fireEvent.change(passwordInput, { target: { value: 'Short1!' } });
             fireEvent.click(submitButton);
 
